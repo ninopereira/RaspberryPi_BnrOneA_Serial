@@ -5,8 +5,8 @@
  Receives from software serial, sends to hardware serial.
 
  The circuit:
- * RX is digital pin 10 (connect to TX of other device)
- * TX is digital pin 11 (connect to RX of other device)
+ * RX is digital pin 8 (connect to TX of other device)
+ * TX is digital pin 9 (connect to RX of other device)
  Created on October 14, 2017
  by Nino Pereira
  based on Tom Igoe and Mikal Hart's examples
