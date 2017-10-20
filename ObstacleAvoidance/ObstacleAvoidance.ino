@@ -52,25 +52,25 @@ void loop()
             //msg = "No OBS";
             sprintf(msg, "OBS %d %d\n",0 ,0);
             mySerial.write(msg);
-            mySerial.flush();
+            //mySerial.flush();
             break;
         case 1:   // obstacle detected on Left sensor
             //one.lcd2("   Left Sensor");
             mySerial.write("   Left Sensor\n");
-            mySerial.flush();
+            //mySerial.flush();
             break;
         case 2:   // obstacle detected on Right sensor
             //one.lcd2("  Right Sensor");
             mySerial.write("   Right Sensor\n");
-            mySerial.flush();
+            //mySerial.flush();
             break;
         case 3:   // obstacle detected on both sensors
             //one.lcd2("  Both Sensors");
             mySerial.write("   Both Sensors\n");
-            mySerial.flush();
+            //mySerial.flush();
             break;
     }
-    delay(10);
+    delay(250);
     // Actuate
     if (mySerial.available()) {
       String received_msg  = mySerial.readString();
@@ -81,9 +81,9 @@ void loop()
         sscanf (received_msg.c_str(),"%*s %d %d",&left_vel, &right_vel);
         // sscanf to stop at a comma use  %[^,]
         sprintf(msg,"CMD_VEL= %d, %d\n", left_vel, right_vel);
-        mySerial.write(msg);
-        mySerial.flush();
+        Serial.write(msg);
+        //mySerial.flush();
       }
     }
-    delay(10);
+    //delay(300);
 }
