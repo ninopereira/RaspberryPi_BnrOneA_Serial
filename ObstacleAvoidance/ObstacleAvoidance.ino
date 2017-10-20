@@ -70,19 +70,20 @@ void loop()
             mySerial.flush();
             break;
     }
-
+    delay(10);
     // Actuate
-    while (!mySerial.available()) {}
-
-    String received_msg  = mySerial.readString();
-    if (received_msg.startsWith("CMD_VEL",0))
-    {
-      int left_vel;
-      int right_vel;
-      sscanf (received_msg.c_str(),"%*s %d %d",&left_vel, &right_vel);
-      // sscanf to stop at a comma use  %[^,]
-      sprintf(msg,"CMD_VEL= %d, %d\n", left_vel, right_vel);
-      Serial.write(msg);
-      Serial.flush();
+    if (mySerial.available()) {
+      String received_msg  = mySerial.readString();
+      if (received_msg.startsWith("CMD_VEL",0))
+      {
+        int left_vel;
+        int right_vel;
+        sscanf (received_msg.c_str(),"%*s %d %d",&left_vel, &right_vel);
+        // sscanf to stop at a comma use  %[^,]
+        sprintf(msg,"CMD_VEL= %d, %d\n", left_vel, right_vel);
+        mySerial.write(msg);
+        mySerial.flush();
+      }
     }
+    delay(10);
 }
