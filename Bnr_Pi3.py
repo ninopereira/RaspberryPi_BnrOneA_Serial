@@ -6,11 +6,11 @@ import io
 
 ser = serial.Serial(
     port='/dev/ttyS0',
-    baudrate = 19200,
+    baudrate = 57600,
     parity=serial.PARITY_NONE,
     stopbits=serial.STOPBITS_ONE,
     bytesize=serial.EIGHTBITS,
-    timeout=0.1
+    timeout=0.01
 )
 sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
 print ('Serial Connection Ready!')
