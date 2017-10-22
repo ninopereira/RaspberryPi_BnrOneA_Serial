@@ -47,22 +47,22 @@ void loop()
             //msg = "No OBS";
             sprintf(msg, "OBS %d %d\n",0 ,0);
             Serial.write(msg);
-            //Serial.flush();
+            Serial.flush();
             break;
         case 1:   // obstacle detected on Left sensor
             //one.lcd2("   Left Sensor");
             Serial.write("   Left Sensor\n");
-            //Serial.flush();
+            Serial.flush();
             break;
         case 2:   // obstacle detected on Right sensor
             //one.lcd2("  Right Sensor");
             Serial.write("   Right Sensor\n");
-            //Serial.flush();
+            Serial.flush();
             break;
         case 3:   // obstacle detected on both sensors
             //one.lcd2("  Both Sensors");
             Serial.write("   Both Sensors\n");
-            //Serial.flush();
+            Serial.flush();
             break;
     }
     // Actuate
@@ -77,7 +77,7 @@ void loop()
         // sscanf to stop at a comma use  %[^,]
         sprintf(msg,"CMD_VEL= %d, %d\n", left_vel, right_vel);
         Serial.write(msg);
-        //Serial.flush();
+        Serial.flush();
         one.move(left_vel,right_vel);
       }
     }
