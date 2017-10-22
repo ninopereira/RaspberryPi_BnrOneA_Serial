@@ -2,8 +2,8 @@
  Obstacle avoidance using Raspberry Pi as behaviour computing device
  
  The circuit:
- * RX is digital pin 8 (connect to TX of other device)
- * TX is digital pin 9 (connect to RX of other device)
+ * RX is digital pin 6 (connect to TX of other device)
+ * TX is digital pin 7 (connect to RX of other device)
  Created on October 14, 2017
  by Nino Pereira
 
@@ -20,7 +20,7 @@
 #define SSPIN  2      // Slave Select (SS) pin for SPI communication
 
 #include <SoftwareSerial.h>
-SoftwareSerial mySerial(8,9); // RX, TX
+SoftwareSerial mySerial(6,7); // RX, TX
 int obstacles = 0;
 char msg[50];
 
