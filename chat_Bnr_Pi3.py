@@ -20,12 +20,8 @@ while True:
     data_in=sio.readline()
     if data_in:
         print (str(data_in))
-        #data_out = input('Enter msg eg: CMD_VEL 10 10 \n')
-        data_out = "CMD_VEL 10 " + str(count) + "\n"
-        
-        time.sleep(0.10)
+        data_out = "CMD_VEL " + str(-count)  + " " + str(count) + "\n"
         sio.write(data_out)
-        #ser.write(bytes(data_out+"\n","UTF-8"))
         sio.flush()
-        
-        count += 1
+        count += 10
+        count = count % 100
