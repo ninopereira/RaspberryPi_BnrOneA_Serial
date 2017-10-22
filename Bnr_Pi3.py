@@ -6,7 +6,7 @@ import io
 
 ser = serial.Serial(
     port='/dev/ttyS0',
-    baudrate = 57600,
+    baudrate = 19200,
     parity=serial.PARITY_NONE,
     stopbits=serial.STOPBITS_ONE,
     bytesize=serial.EIGHTBITS,
@@ -17,7 +17,9 @@ print ('Serial Connection Ready!')
 time.sleep(0.2)
 count = 0
 data_in = []
-state = 0 
+state = 0
+iterator = 0
+timer_start = time.time()
 while True:
     data_out = "GET_OBS \n"
     sio.write(data_out)
@@ -27,9 +29,9 @@ while True:
         data_in=sio.readline()
 
     if (state == 0):
-        count = count + 10
+        count = count + 1
     else:
-        count = count - 10
+        count = count - 1
 
     if state == 0 and count > 100:
         state = 1
@@ -37,9 +39,17 @@ while True:
     if state == 1 and count < 0:
         state = 0
         count = 0
-    print (str(data_in))
+    #print (str(data_in))
     
     data_out = "CMD_VEL " + str(-count)  + " " + str(count) + "\n"
+    #data_out = "CMD_VEL " + str(0)  + " " + str(0) + "\n"
     sio.write(data_out)
     sio.flush()
-    time.sleep(0.05)
+    time.sleep(0.02)
+    iterator = iterator + 1
+    if (iterator % 100) == 0:
+       iterator = 1
+       
+       timer_now = time.time()
+       print ("Running at ", 100.0/(timer_now - timer_start), " Hz")
+       timer_start = time.time()

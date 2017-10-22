@@ -15,7 +15,8 @@
 #include <EEPROM.h>    // EEPROM reading and writing
 #include <SPI.h>       // SPI communication library required by BnrOne.cpp
 BnrOneA one;           // declaration of object variable to control the Bot'n Roll ONE A
-
+#include <SoftwareSerial.h>
+SoftwareSerial mySerial(6, 7); // RX, TX
 //constants definition
 #define SSPIN  2      // Slave Select (SS) pin for SPI communication
 
@@ -29,28 +30,22 @@ void setup()
     one.spiConnect(SSPIN);   // start the SPI communication module
     one.stop();              // stop motors
     one.obstacleEmitters(ON);// activate obstacles detection
-    //setup routines -> runs only once when program starts
-    Serial.begin(57600);     // set baud rate to 57600bps for printing values at serial monitor.
-    Serial.setTimeout(5);
-    delay(200);
-    Serial.println("Serial connection OK");
-    // set the data rate for the SoftwareSerial port
+    mySerial.begin(19200);
+    mySerial.setTimeout(5);
+    delay(100);
 }
 
 void loop()
 {
     // Actuate
-    if (Serial.available()) {
-      String received_msg  = Serial.readString();
+    if (mySerial.available()) {
+      String received_msg  = mySerial.readString();
       if (received_msg.startsWith("CMD_VEL",0))
       {
         int left_vel;
         int right_vel;
         sscanf (received_msg.c_str(),"%*s %d %d\n",&left_vel, &right_vel);        
-        // sscanf to stop at a comma use  %[^,]
         sprintf(msg,"CMD_VEL= %d, %d\n", left_vel, right_vel);
-        //Serial.write(msg);
-        //Serial.flush();
         one.move(left_vel,right_vel);
       }
       if (received_msg.startsWith("GET_OBS",0))
@@ -60,26 +55,21 @@ void loop()
         switch(obstacles)
         {
             case 0:   // no obstacles detected
-                //one.lcd2("  No Obstacles");
-                //msg = "No OBS";
                 sprintf(msg, "OBS %d %d\n",0 ,0);
-                Serial.write(msg);
-                Serial.flush();
+                mySerial.write(msg);
+                mySerial.flush();
                 break;
             case 1:   // obstacle detected on Left sensor
-                //one.lcd2("   Left Sensor");
-                Serial.write("   Left Sensor\n");
-                Serial.flush();
+                mySerial.write("   Left Sensor\n");
+                mySerial.flush();
                 break;
             case 2:   // obstacle detected on Right sensor
-                //one.lcd2("  Right Sensor");
-                Serial.write("   Right Sensor\n");
-                Serial.flush();
+                mySerial.write("   Right Sensor\n");
+                mySerial.flush();
                 break;
             case 3:   // obstacle detected on both sensors
-                //one.lcd2("  Both Sensors");
-                Serial.write("   Both Sensors\n");
-                Serial.flush();
+                mySerial.write("   Both Sensors\n");
+                mySerial.flush();
                 break;
         }
       }
